@@ -10,6 +10,9 @@ const dateRangePicker = flatpickr("#dateRange1", {
 	minDate: "today",
 	maxDate: maxDate,
 	showMonths: 2,
+	locale: {
+		firstDayOfWeek: 1,
+	},
 	// disable dates
 	disable: [
 		{
