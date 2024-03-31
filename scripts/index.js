@@ -1,12 +1,15 @@
 // Variables
+const range1 = document.querySelector("#dateRange1");
+const range2 = document.querySelector("#dateRange2");
 const today = new Date();
-const maxDate = new Date().setMonth(new Date().getMonth() + 1);
+const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
 // Date Range Picker
-const dateRangePicker = flatpickr("#dateRange1", {
+const dateRangePicker = flatpickr(range1, {
 	mode: "range",
 	enableTime: false,
-	dateFormat: "Y-m-d",
+	disableMobile: true,
+	dateFormat: "D d F",
 	minDate: "today",
 	maxDate: maxDate,
 	showMonths: 2,
@@ -25,12 +28,23 @@ const dateRangePicker = flatpickr("#dateRange1", {
 	// plugins
 	plugins: [
 		new rangePlugin({
-			input: "#dateRange2",
+			input: range2,
 		}),
 	],
 });
 
-// Clear Date Range
-document.querySelector("#dateRangeClear").onclick = () => {
-	dateRangePicker.clear(); // Clear range inputs
-};
+// Disable Flatpickr if device width is too short
+if (window.innerWidth < 618) {
+	flatpickr("#dateRange1").destroy();
+
+	// enable date picker for date range 1
+	range1.type = "date";
+	range1.setAttribute("min", today.toISOString().split("T")[0]);
+	range1.setAttribute("max", maxDate.toISOString().split("T")[0]);
+
+	// enable date picker for date range 2
+	range2.type = "date";
+	range2.removeAttribute("readonly");
+	range2.setAttribute("min", today.toISOString().split("T")[0]);
+	range2.setAttribute("max", maxDate.toISOString().split("T")[0]);
+}
