@@ -1,16 +1,29 @@
+/* Scroll Bar */
+
+[data-bs-theme="light"] {
+	--scrollbar-thumb-color: #212529;
+	--scrollbar-track-color: #fff;
+}
+
+[data-bs-theme="dark"] {
+	--scrollbar-thumb-color: #fff;
+	--scrollbar-track-color: #212529;
+}
+
 body::-webkit-scrollbar {
 	width: 0.5em;
 }
 
 body::-webkit-scrollbar-thumb {
-	background-color: #fff;
+	background-color: var(--scrollbar-thumb-color);
 	border-radius: 50px;
 }
 
 body::-webkit-scrollbar-track {
-	background-color: #212529;
+	background-color: var(--scrollbar-track-color);
 }
 
+/* Main tag width */
 main {
 	min-height: 100dvh !important;
 }

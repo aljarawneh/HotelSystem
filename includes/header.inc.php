@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="../styles/mystyles.css">
 </head>
 
-<body class="bg-dark text-white">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary nav-pills" data-bs-theme="dark">
+<body class="text-white" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary nav-pills">
         <div class="container-fluid">
             <!-- Logo -->
             <img src="/images/logo-light.png" class="navbar-brand img-fluid user-select-none" alt="Rigit Zoo Adventures Logo" width="50" draggable="false" />
@@ -30,7 +30,7 @@
             <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item ">
-                        <a class="nav-link active text-bg-light" aria-current="page" href="../index.php">Book</a>
+                        <a class="nav-link active text-bg-light" aria-current="page" href="../index.php">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../pages/aboutus.php">About Us</a>
