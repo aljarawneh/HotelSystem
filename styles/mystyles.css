@@ -32,3 +32,9 @@ main {
 .btn-circle {
 	border-radius: 50% !important;
 }
+
+/* Disable Input Css */
+.disable-input {
+	pointer-events: none;
+	user-select: text;
+}

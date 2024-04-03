@@ -5,12 +5,48 @@ require_once("../includes/autoloader.inc.php");
 // Webpage object
 $webpage = new Webpage("Account - RZA", "account");
 
+// Create Account Object & Fill entry when clicked
+$account = new Account($_POST["firstName"] ?? '', $_POST["lastName"] ?? '', $_POST["email"] ?? '', $_POST["password"] ?? '', $_POST["confirmPassword"] ?? '', $_GET["type"] ?? '', $_COOKIE["customerID"] ?? '');
+
+// Account Type Handler
+if (isset($_POST["btnSubmit"])) {
+    switch ($account->getType()) {
+        case 'login': // confirm login
+            $result = $account->confirmLogin();
+            if ($result) {
+                $account->createCookies();
+                header("Location:../index.php");
+                exit();
+                break;
+            }
+            break;
+        case 'register': // confirm register
+            $result = $account->confirmRegister();
+            if ($result) {
+                $account->createCookies();
+                header("Location:../index.php");
+                exit();
+                break;
+            }
+    }
+}
+
+// Redirect if logged in
+if (isset($_COOKIE["customerID"])) {
+    header("Location:../index.php");
+    exit();
+} else if (!isset($_COOKIE["customerID"]) && !isset($_GET["type"])) {
+    header("Location:account.php?type=register");
+    exit();
+}
+
+
 require_once("../includes/header.inc.php"); ?>
 
 <!-- Register -->
 <main>
     <!-- Login -->
-    <section class="container d-none" id="login">
+    <section class="container" <?php $account->displaySection("login") ?>>
         <h1 class="text-white fw-bold text-center">Login</h1>
         <hr class="border border-light border-2 opacity-50 rounded">
 
@@ -39,7 +75,7 @@ require_once("../includes/header.inc.php"); ?>
     </section>
 
     <!-- Register -->
-    <section class="container d-none" id="register">
+    <section class="container" <?php $account->displaySection("register") ?>>
         <h1 class="text-white fw-bold text-center">Register</h1>
         <hr class="border border-light border-2 opacity-50 rounded">
 

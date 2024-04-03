@@ -11,8 +11,8 @@ class Webpage {
     // Properties
     private $title;
     private $active;
-    private $stylesheets = [];
-    private $scripts = [];
+    private $stylesheets;
+    private $scripts;
 
     // Method to assign properties with value
     public function __construct($title, $active) {
@@ -43,7 +43,12 @@ class Webpage {
     }
 
     // SET Method to assign scripts (args)
-    public function setScripts($script) {
+    public function setScript($script) {
         $this->scripts = $script;
+    }
+
+    // Method to get script
+    public function getScript() {
+        echo strlen($this->scripts) == 0 ? '' : '<script src="' . $this->scripts . '"></script>';
     }
 }
