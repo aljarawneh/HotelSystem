@@ -27,3 +27,8 @@ body::-webkit-scrollbar-track {
 main {
 	min-height: 100dvh !important;
 }
+
+/* Button */
+.btn-circle {
+	border-radius: 50% !important;
+}

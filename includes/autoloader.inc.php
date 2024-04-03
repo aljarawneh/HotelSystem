@@ -1,5 +1,4 @@
 <?php
-
 spl_autoload_register('myAutoLoader');
 
 function myAutoLoader($className) {
@@ -13,11 +12,10 @@ function myAutoLoader($className) {
         $fullPath = $directory . $className . $extension;
 
         if (file_exists($fullPath)) {
-            include_once $fullPath;
+            require_once $fullPath;
             return true;
         }
     }
-
     // Close autoload
     return false;
 }

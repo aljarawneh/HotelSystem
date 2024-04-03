@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>RZA</title>
+    <title><?php $webpage->getTitle() ?></title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -29,16 +29,12 @@
             <!-- Navbar Options -->
             <div class="collapse navbar-collapse text-center" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item ">
-                        <a class="nav-link active text-bg-light" aria-current="page" href="../index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../pages/aboutus.php">About Us</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="../pages/discover.php">Discover</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../pages/hotel.php">Hotel</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../pages/ticket.php">Ticket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="../pages/animal.php">Animal</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("index") ?>" aria-current="page" href="../index.php">Home</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("about") ?>" href="../pages/about.php">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("discover") ?>" href="../pages/discover.php">Discover</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("hotel") ?>" href="../pages/hotel.php">Hotel</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("ticket") ?>" href="../pages/ticket.php">Ticket</a></li>
+                    <li class="nav-item"><a class="nav-link <?php $webpage->getActive("animal") ?>" href="../pages/animal.php">Animal</a></li>
                 </ul>
                 <!-- Buttons -->
                 <div class="d-flex justify-content-center gap-2 text-center">

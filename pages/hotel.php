@@ -1,4 +1,11 @@
-<?php require_once("../includes/header.inc.php"); ?>
+<?php
+// Include class autoloader
+require_once("../includes/autoloader.inc.php");
+
+// Webpage object
+$webpage = new Webpage("Hotel - RZA", "hotel");
+
+require_once("../includes/header.inc.php"); ?>
 
 <main class="container mt-5">
     <!-- Filtering date -->
@@ -34,6 +41,6 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="/scripts/index.js" defer></script>
+<script src="/scripts/flatpickr.js" defer></script>
 
 <?php require_once("../includes/footer.inc.php"); ?>

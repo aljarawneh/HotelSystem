@@ -1,6 +1,7 @@
 // Variables
 const range1 = document.querySelector("#dateRange1");
 const range2 = document.querySelector("#dateRange2");
+const clearBtn = document.querySelector("#dateRangeClear");
 const today = new Date();
 const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
 
@@ -48,3 +49,8 @@ if (window.innerWidth < 618) {
 	range2.setAttribute("min", today.toISOString().split("T")[0]);
 	range2.setAttribute("max", maxDate.toISOString().split("T")[0]);
 }
+
+// Clear Input
+clearBtn.onclick = () => {
+	dateRangePicker.clear();
+};

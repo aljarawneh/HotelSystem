@@ -1,4 +1,11 @@
-<?php require_once("../includes/header.inc.php"); ?>
+<?php
+// Include class autoloader
+require_once("../includes/autoloader.inc.php");
+
+// Webpage object
+$webpage = new Webpage("Discover - RZA", "discover");
+
+require_once("../includes/header.inc.php"); ?>
 
 <main></main>
 
