@@ -6,6 +6,8 @@ if (strpos($_SERVER['PHP_SELF'], 'classes/') !== false || strpos($_SERVER['PHP_S
     exit();
 }
 
+include_once("profile.class.php");
+
 // Class to set data to webpage
 class Webpage {
     // Properties

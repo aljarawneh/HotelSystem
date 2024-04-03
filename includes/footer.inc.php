@@ -18,6 +18,7 @@
                         <h5>Other</h5>
                         <ul class="nav flex-column">
                             <li class="nav-item mb-2"><a href="../index.php?type=tcs" class="nav-link p-0 text-body-secondary">Terms and Conditions</a></li>
+                            <li class="nav-item mb-2"><a href="../index.php?type=privacy" class="nav-link p-0 text-body-secondary">Privacy Policy</a></li>
                             <li class="nav-item mb-2"><a href="../index.php?type=faqs" class="nav-link p-0 text-body-secondary">FAQs</a></li>
                         </ul>
                     </div>

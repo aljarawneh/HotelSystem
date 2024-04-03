@@ -1,5 +1,4 @@
-/* Scroll Bar */
-
+/* Theme */
 [data-bs-theme="light"] {
 	--scrollbar-thumb-color: #212529;
 	--scrollbar-track-color: #fff;
@@ -10,6 +9,7 @@
 	--scrollbar-track-color: #212529;
 }
 
+/* Scroll Bar */
 body::-webkit-scrollbar {
 	width: 0.5em;
 }
@@ -38,3 +38,5 @@ main {
 	pointer-events: none;
 	user-select: text;
 }
+
+/* Account Button */

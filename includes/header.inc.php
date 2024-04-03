@@ -1,5 +1,10 @@
 <!doctype html>
 <html lang="en">
+<?php
+
+$profile = new Profile("", "", "", "", "", $_COOKIE["customerID"]);
+
+?>
 
 <head>
     <title><?php $webpage->getTitle() ?></title>
@@ -58,7 +63,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end w-100 mw-100 mt-2">
                             <?php if (isset($_COOKIE["customerID"])) { ?>
-                                <li><a class="dropdown-item" href="../pages/profile.php">Profile</a></li>
+                                <li><a class="dropdown-item" href="../pages/profile.php"><?php $profile->getName() ?></a></li>
                                 <li>
                                     <hr class="dropdown-divider" />
                                 </li>
