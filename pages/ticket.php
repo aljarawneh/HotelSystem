@@ -6,9 +6,9 @@ require_once("../includes/autoloader.inc.php");
 $webpage = new Webpage("Ticket - RZA", "ticket");
 
 // Ticket Object
-$ticket = new Ticket($_GET["type"] ?? '');
+$ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["ticketSelect"] ?? '');
 
-// Don't short warning
+// Don't show notices
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 
 require_once("../includes/header.inc.php"); ?>
@@ -25,24 +25,32 @@ require_once("../includes/header.inc.php"); ?>
 
     <section id="payment" <?php $webpage->displaySection($_GET["type"] ?? '', "payment") ?>>
         <!-- Ticket Booking -->
-        <form method="post">
+        <form method="post" class=" needs-validation" novalidate>
             <h3 class="text-center"><?php echo ucfirst($_GET["type"]) ?> Tickets - Confirm Booking Details</h3>
             <div class="row">
                 <div class="col-md-6">
                     <!-- Date -->
-                    <label for="startDate" class="fs-5">Start Date: </label>
-                    <div class="input-group mb-3">
+                    <label for="startDate" class="fs-5 pb-2">Start Date: </label>
+                    <div class="input-group mb-3 has-validation">
                         <label class="input-group-text">Date</label>
-                        <input type="text" id="startDate" name="startDate" class="form-control" placeholder=" Select Date.." readonly="readonly" min="today" max="today + 10 days" required />
+                        <input type="text" id="startDate" name="startDate" class="form-control <?php if (isset($_POST["dateSubmit"])) $ticket->errorCheck("date") ?>" placeholder=" Select Date.." readonly="readonly" min="today" max="today + 10 days" value="<?php if (isset($_POST["dateSubmit"])) $ticket->returnInput("date") ?>" required />
                         <button type="button" class="btn btn-light input-group-end" id="dateClear">Clear</button>
+                        <div class="invalid-feedback">
+                            <!-- Invalid input-->
+                            Date is empty, please try again.
+                        </div>
                     </div>
                     <!-- Picking Ticket Type -->
-                    <div class="input-group mb-3">
-                        <label class="input-group-text" for="inputGroupSelect01">Type</label>
-                        <select class="form-select" id="inputGroupSelect01" required>
-                            <option selected disabled>Choose...</option>
+                    <label for="ticketSelect" class="fs-5 pb-2">Ticket Type: </label>
+                    <div class="input-group mb-3 has-validation">
+                        <label class="input-group-text" for="ticketSelect">Type</label>
+                        <select class="form-select <?php if (isset($_POST["dateSubmit"])) $ticket->errorCheck("select") ?>" id="ticketSelect" name="ticketSelect" required>
                             <?php $ticket->displaySelect() ?>
                         </select>
+                        <div class="invalid-feedback">
+                            <!-- Invalid input-->
+                            Select a ticket type, please try again.
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-6">

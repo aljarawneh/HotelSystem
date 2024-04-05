@@ -11,10 +11,16 @@ include_once("dbh.class.php");
 class Ticket extends Dbh {
     // Properties
     private $type;
+    private $date;
+    private $select;
+    private $errors = array();
 
     // Construct Method to assign properties
-    public function __construct($type) {
+    public function __construct($type, $date, $select) {
+        // Assign Properties
         $this->type = $type;
+        $this->date = $this->validateDate($date);
+        $this->select = $this->validateSelect($select);
     }
 
     // Method to return certain range of ticket types
@@ -68,6 +74,35 @@ class Ticket extends Dbh {
         }
         $output .= '</ul>';
         return $output;
+    }
+
+    // Method to validate date
+    public function validateDate($date) {
+        if (strlen($date) == 0) {
+            array_push($this->errors, "date");
+            return "";
+        } else {
+            return $date;
+        }
+    }
+
+    // Method to validate select
+    public function validateSelect($select) {
+        return strlen($select) == 0 ? array_push($this->errors, "select") : $select;
+    }
+
+    // Method to check for certain error
+    public function errorCheck($error) {
+        echo in_array($error, $this->errors) ? "is-invalid" : "is-valid";
+    }
+
+    // Method to return inserted value
+    public function returnInput($type) {
+        if ($type == "date") {
+            echo $this->date;
+        } elseif ($type == $this->select) {
+            return "selected";
+        }
     }
 
     // Method to display all ticket category
@@ -130,9 +165,9 @@ class Ticket extends Dbh {
     public function displaySelect() {
         $result = $this->getResult();
         echo '
-                <option value="day">' . $result[0]["ticketName"] . '</option>
-                <option value="week">' . $result[1]["ticketName"] . '</option>
-                <option value="month">' . $result[2]["ticketName"] . '</option>
-                <option value="year">' . $result[3]["ticketName"] . '</option>';
+                <option ' . $this->returnInput("day") . ' value="day">' . $result[0]["ticketName"] . '</option>
+                <option ' . $this->returnInput("week") . ' value="week">' . $result[1]["ticketName"] . '</option>
+                <option ' . $this->returnInput("month") . ' value="month">' . $result[2]["ticketName"] . '</option>
+                <option ' . $this->returnInput("year") . ' value="year">' . $result[3]["ticketName"] . '</option>';
     }
 }
