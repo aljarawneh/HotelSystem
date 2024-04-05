@@ -53,4 +53,19 @@ class Webpage {
     public function getScript() {
         echo strlen($this->scripts) == 0 ? '' : '<script src="' . $this->scripts . '"></script>';
     }
+
+    // Method to display correct section for ticket & hotel
+    public function displaySection($type, $section) {
+        $types = ["adult", "children", "family", "educational"];
+        if (($section == "main" && in_array($type, $types)) ||
+            ($section == "payment" && !in_array($type, $types))
+        ) {
+            echo "hidden";
+        }
+    }
+
+    // Method to return boolean value if flatpickr scripts need to be included
+    public function showFlatpickr() {
+        return strpos($_SERVER['PHP_SELF'], "ticket.php") || strpos($_SERVER['PHP_SELF'], "hotel.php") ?  true : false;
+    }
 }

@@ -45,14 +45,14 @@ class Profile extends Dbh {
 
     // GETTER Method to get row of data
     private function getRowById($id) {
-        $stmt = $this->connect()->prepare("SELECT * FROM customer WHERE customerID = ?");
+        $stmt = $this->connect()->prepare("SELECT * FROM users WHERE customerID = ?");
         $stmt->execute([$id]);
         return ($stmt->fetch());
     }
 
     // GETTER Method to get email
     private function getRowByEmail($email) {
-        $stmt = $this->connect()->prepare("SELECT * FROM customer WHERE email = ?");
+        $stmt = $this->connect()->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
         return $stmt->fetch();;
     }

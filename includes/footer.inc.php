@@ -1,7 +1,7 @@
 <footer <?php $webpage->disableFooter() ?>>
     <!-- Top half -->
-    <div class="container py-4">
-        <div class="row">
+    <div class="container">
+        <div class="row container">
             <div class="col-md-6 mb-3">
                 <div class="row">
                     <div class="col-6">
@@ -24,22 +24,32 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5 offset-md-1 mb-3">
-                <form>
-                    <h5>Subscribe to our website</h5>
-                    <p>Be notified first when theres offers and news.</p>
-                    <div class="d-flex flex-column flex-sm-row w-100 gap-2">
-                        <label for="newsletter1" class="visually-hidden">Email address</label>
-                        <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
-                        <button class="btn btn-primary" type="button">Subscribe</button>
-                    </div>
-                </form>
-            </div>
+            <?php if (isset($_COOKIE["customerID"])) { ?>
+                <div class="col-md-5 offset-md-1 mb-3">
+                    <form>
+                        <h5>Subscribe to our website</h5>
+                        <button class="btn btn-primary" type="submit">Subscribe</button>
+                    </form>
+                </div>
+            <?php } else { ?>
+                <div class="col-md-5 offset-md-1 mb-3">
+                    <form>
+                        <h5>Subscribe to our website</h5>
+                        <p>Be notified first when theres offers and news.</p>
+                        <div class="d-flex flex-column flex-sm-row w-100 gap-2">
+                            <label for="newsletter1" class="visually-hidden">Email address</label>
+                            <input id="newsletter1" type="text" class="form-control" placeholder="Email address">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            <?php } ?>
+
         </div>
     </div>
 
     <!-- Bottom half -->
-    <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top" data-bs-theme="dark">
+    <div class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-3 border-top" data-bs-theme="dark">
         <p class="col-md-4 mb-0 p-2 text-white">&copy; 2024 Riget Zoo Adventures. All rights reserved.</p>
 
         <div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none gap-3">
@@ -68,7 +78,12 @@
 </footer>
 <!-- Bootstrap JavaScript Libraries -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="../scripts/script.js"></script>
+<?php if ($webpage->showFlatpickr()) { ?>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/rangePlugin.js"></script>
+    <script src="/scripts/flatpickr.js" defer></script>
+    <script src="../scripts/script.js"></script>
+<?php } ?>
 <?php $webpage->getScript() ?>
 </body>
 

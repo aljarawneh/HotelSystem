@@ -2,7 +2,7 @@
 <html lang="en">
 <?php
 
-$profile = new Profile("", "", "", "", "", $_COOKIE["customerID"]);
+$profile = new Profile("", "", "", "", "", $_COOKIE["customerID"] ?? '');
 
 ?>
 
@@ -14,7 +14,9 @@ $profile = new Profile("", "", "", "", "", $_COOKIE["customerID"]);
     <!-- Favicon -->
     <link rel="shortcut icon" href="../images/logo-light.png" type="image/x-icon">
     <!-- Flatpickr CSS-->
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <?php if ($webpage->showFlatpickr()) { ?>
+        <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <?php } ?>
     <!-- Bootstrap CSS-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Customer CSS -->

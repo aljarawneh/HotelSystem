@@ -1,38 +1,59 @@
 // Variables
-const range1 = document.querySelector("#dateRange1");
-const range2 = document.querySelector("#dateRange2");
-const clearBtn = document.querySelector("#dateRangeClear");
-const today = new Date();
+const clearBtn = document.querySelector("#dateClear");
 const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
+let dateRangePicker;
+let datePicker;
 
 // Date Range Picker
-const dateRangePicker = flatpickr(range1, {
-	mode: "range",
-	enableTime: false,
-	disableMobile: true,
-	dateFormat: "D d F",
-	minDate: "today",
-	maxDate: maxDate,
-	showMonths: 2,
-	locale: {
-		firstDayOfWeek: 1,
-	},
-	// disable dates
-	disable: [
-		{
-			from: "2024-09-01",
-			to: "2024-12-01",
+try {
+	dateRangePicker = flatpickr(document.querySelector("#dateRange1"), {
+		mode: "range",
+		enableTime: false,
+		disableMobile: true,
+		dateFormat: "D d F",
+		minDate: "today",
+		maxDate: maxDate,
+		showMonths: 2,
+		locale: {
+			firstDayOfWeek: 1,
 		},
-		// "2024-04-20",
-		// (date) => date.getDay() % 6 === 0,
-	],
-	// plugins
-	plugins: [
-		new rangePlugin({
-			input: range2,
-		}),
-	],
-});
+		// disable dates
+		disable: [
+			{
+				from: "2024-09-01",
+				to: "2024-12-01",
+			},
+			// "2024-04-20",
+			// (date) => date.getDay() % 6 === 0,
+		],
+		// plugins
+		plugins: [
+			new rangePlugin({
+				input: document.querySelector("#dateRange2"),
+			}),
+		],
+	});
+} catch (error) {
+	// Handle the error
+	console.error("Error initializing date range picker:", error.message);
+}
+
+// Single Date Picker
+try {
+	datePicker = flatpickr(document.querySelector("#startDate"), {
+		enableTime: false,
+		disableMobile: true,
+		dateFormat: "D d F",
+		minDate: "today",
+		maxDate: maxDate,
+		locale: {
+			firstDayOfWeek: 1,
+		},
+	});
+} catch (error) {
+	// Handle the error
+	console.error("Error initializing date picker:", error.message);
+}
 
 // Disable Flatpickr if device width is too short
 if (window.innerWidth < 618) {
@@ -52,5 +73,10 @@ if (window.innerWidth < 618) {
 
 // Clear Input
 clearBtn.onclick = () => {
-	dateRangePicker.clear();
+	if (dateRangePicker) {
+		dateRangePicker.clear();
+	}
+	if (datePicker) {
+		datePicker.clear();
+	}
 };

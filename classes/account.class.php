@@ -69,7 +69,7 @@ class Account extends Dbh {
 
     // GETTER Method to get account name
     public function getName() {
-        $stmt = $this->connect()->prepare("SELECT * FROM customer WHERE customerID = ?");
+        $stmt = $this->connect()->prepare("SELECT * FROM users WHERE customerID = ?");
         $stmt->execute([$this->userId]);
         $result = $stmt->fetchAll();
         return in_array("firstName", $result) ? ucfirst($result["firstName"]) : "Profile";
@@ -77,7 +77,7 @@ class Account extends Dbh {
 
     // GETTER Method to get email
     public function getEmail() {
-        $stmt = $this->connect()->prepare("SELECT email FROM customer WHERE customerID = ?");
+        $stmt = $this->connect()->prepare("SELECT email FROM users WHERE customerID = ?");
         $stmt->execute([$this->userId]);
         $result = $stmt->fetch();
         return ($result["email"]);
@@ -85,7 +85,7 @@ class Account extends Dbh {
 
     // GETTER Method to get hashed password
     private function getHashedPassword($email) {
-        $stmt = $this->connect()->prepare("SELECT password_text FROM customer WHERE email = ?");
+        $stmt = $this->connect()->prepare("SELECT password_text FROM users WHERE email = ?");
         $stmt->execute([$email]);
 
         // Return hashed password
@@ -170,7 +170,7 @@ class Account extends Dbh {
 
     // Method to check if email exists
     private function checkEmail($email) {
-        $stmt = $this->connect()->prepare("SELECT * FROM customer WHERE email = ?");
+        $stmt = $this->connect()->prepare("SELECT * FROM users WHERE email = ?");
         $stmt->execute([$email]);
 
         // Return boolean result if email is in use
@@ -204,7 +204,7 @@ class Account extends Dbh {
 
     // Method to CREATE cookies
     public function createCookies() {
-        $stmt = $this->connect()->prepare("SELECT customerID FROM customer WHERE email = ?");
+        $stmt = $this->connect()->prepare("SELECT customerID FROM users WHERE email = ?");
         $stmt->execute([$this->inputValues['email']]);
         $userId = $stmt->fetch();
         setcookie("customerID", $userId["customerID"], time() + (86400 * 30), "/");

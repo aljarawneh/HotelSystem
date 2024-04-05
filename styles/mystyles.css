@@ -39,4 +39,38 @@ main {
 	user-select: text;
 }
 
-/* Account Button */
+/* Input Group */
+.input-group input:focus,
+.input-group input:active {
+	box-shadow: none !important;
+}
+
+/* Image Size */
+.order-lg-1 {
+	height: 50dvh !important;
+	width: 20dvw !important;
+	overflow: hidden;
+	object-fit: fill;
+}
+
+/* Image size at cart */
+.item-image {
+	height: 20dvh !important;
+	width: 15dvw !important;
+	overflow: hidden;
+	object-fit: fill;
+}
+
+.item-image img {
+	width: 100%;
+	height: 100%;
+	border-radius: 20px;
+}
+
+/* Text Truncate Name */
+.product-name {
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
