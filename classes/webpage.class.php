@@ -57,12 +57,14 @@ class Webpage {
     // Method to display correct section for ticket & hotel
     public function displaySection($type, $section) {
         $types = ["adult", "children", "family", "educational"];
-        if (($section == "main" && in_array($type, $types)) ||
-            ($section == "payment" && !in_array($type, $types))
+        if (($section == "main" && (in_array($type, $types) || $type == "payment")) ||
+            ($section == "booking" && !in_array($type, $types)) ||
+            ($section == "payment" && $type != "payment")
         ) {
             echo "hidden";
         }
     }
+
 
     // Method to return boolean value if flatpickr scripts need to be included
     public function showFlatpickr() {

@@ -8,18 +8,22 @@ $webpage = new Webpage("Hotel - RZA", "hotel");
 require_once("../includes/header.inc.php"); ?>
 
 <main class="container mt-5">
-    <!-- Filtering date -->
-    <form method="post">
-        <hr>
-        <h3>Choose a time for your booking:</h3><br>
-        <label for="dateRange1">From:</label>
-        <input type="text" id="dateRange1" name="startDate" placeholder="Select Date.." readonly="readonly" min="today" max="today + 10 days" />
-        <!-- To -->
-        <label for="dateRange2">To:</label>
-        <input type="text" id="dateRange2" name="endDate" placeholder="Select Date.." readonly="readonly" min="today" max="today + 10 days" />
-        <button type="button" class="btn btn-light" id="dateClear">Clear</button>
-        <button type="submit" class="btn btn-success" name="dateSubmit">Submit</button>
-    </form>
+    <section id="main" <?php $webpage->displaySection($_GET["type"] ?? '', "main") ?>>
+        <!-- Filtering date -->
+        <form method="post">
+            <hr>
+            <h3>Choose a time for your booking:</h3><br>
+            <label for="dateRange1">From:</label>
+            <input type="text" id="dateRange1" name="startDate" placeholder="Select Date.." readonly="readonly" min="today" max="today + 10 days" />
+            <!-- To -->
+            <label for="dateRange2">To:</label>
+            <input type="text" id="dateRange2" name="endDate" placeholder="Select Date.." readonly="readonly" min="today" max="today + 10 days" />
+            <button type="button" class="btn btn-light" id="dateClear">Clear</button>
+            <button type="submit" class="btn btn-success" name="dateSubmit">Submit</button>
+        </form>
+    </section>
+
+    <section id="payment" <?php $webpage->displaySection($_GET["type"] ?? '', "payment") ?>></section>
 
 
     <!-- Form -->

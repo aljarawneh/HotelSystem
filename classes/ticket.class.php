@@ -21,6 +21,11 @@ class Ticket extends Dbh {
         $this->type = $type;
         $this->date = $this->validateDate($date);
         $this->select = $this->validateSelect($select);
+
+        // redirect if no errors
+        if (count($this->errors) == 0) {
+            header("Location:ticket.php?type=payment");
+        }
     }
 
     // Method to return certain range of ticket types
