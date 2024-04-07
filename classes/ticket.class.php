@@ -11,20 +11,24 @@ include_once("dbh.class.php");
 class Ticket extends Dbh {
     // Properties
     private $type;
-    private $date;
+    public $date;
     private $select;
+    private $quantity;
+    private $id;
     private $errors = array();
 
     // Construct Method to assign properties
-    public function __construct($type, $date, $select) {
+    public function __construct($type, $date, $select, $quantity) {
         // Assign Properties
         $this->type = $type;
         $this->date = $this->validateDate($date);
         $this->select = $this->validateSelect($select);
+        $this->quantity =  $this->validateQnty($quantity);
 
         // redirect if no errors
         if (count($this->errors) == 0) {
-            header("Location:ticket.php?type=payment");
+            $this->setID($this->select);
+            $this->storeData();
         }
     }
 
@@ -55,6 +59,13 @@ class Ticket extends Dbh {
         $stmt = $this->connect()->prepare("SELECT * FROM `type`");
         $stmt->execute();
         return $stmt->fetchAll();
+    }
+
+    // Method to return certain ticket
+    private function getTicket($id) {
+        $stmt = $this->connect()->prepare("SELECT * FROM `type` WHERE ticketType = ?");
+        $stmt->execute([$id]);
+        return $stmt->fetch();
     }
 
     // Method to extract highest and lowest prices for each category
@@ -91,14 +102,56 @@ class Ticket extends Dbh {
         }
     }
 
+    // Method to validate quantity
+    public function validateQnty($qnty) {
+        if (strlen($qnty) == 0 || $qnty <= 0) {
+            array_push($this->errors, "quantity");
+            return "";
+        } else {
+            return $qnty;
+        }
+    }
+
     // Method to validate select
     public function validateSelect($select) {
-        return strlen($select) == 0 ? array_push($this->errors, "select") : $select;
+        if (strlen($select) == 0) {
+            array_push($this->errors, "date");
+            return "";
+        } else {
+            return $select;
+        }
     }
 
     // Method to check for certain error
     public function errorCheck($error) {
         echo in_array($error, $this->errors) ? "is-invalid" : "is-valid";
+    }
+
+    // Method to store post data in session
+    public function storeData() {
+        // Start the session
+        session_start();
+
+        // Store the POST data in session variables
+        $_SESSION['post_data'] = [
+            'type' => $this->type,
+            'date' => $this->date,
+            'select' => $this->select,
+            'quantity' => $this->quantity,
+            'id' => $this->id
+        ];
+
+        // Redirect
+        header("Location:ticket.php?type=payment");
+        exit();
+    }
+
+    // Method to assign ID of the ticket picked
+    private function setID($select) {
+        $result = $this->getResult();
+        $indexMap = ['day' => 0, 'week' => 1, 'month' => 2, 'year' => 3];
+        $this->id = $result[$indexMap[$select]]["ticketType"];
+        echo $this->id;
     }
 
     // Method to return inserted value
@@ -107,8 +160,66 @@ class Ticket extends Dbh {
             echo $this->date;
         } elseif ($type == $this->select) {
             return "selected";
+        } elseif ($type == "quantity") {
+            echo $this->quantity;
         }
     }
+
+    // Method to calculate and return the end date
+    public function calculateEnd($date, $select) {
+        // Convert date
+        $startDate = DateTime::createFromFormat('D j F', $date);
+
+        return $startDate->modify("+1 $select")->format('l jS F Y');
+    }
+
+    // Method to display ticket summary
+    public function displayInformation() {
+        $result = $this->getTicket($_SESSION["post_data"]["id"]);
+        echo
+        '<div class="row">
+            <div class="col-lg-6">
+                <h3 class="h5 text-decoration-underline">Ticket Information</h3>
+                <p>' . "<strong>Ticket Name</strong><br>" . ucfirst($_SESSION["post_data"]["select"]) . " Ticket (" . ucfirst($_SESSION["post_data"]["type"]) . ")" . '<br>
+                    ' . "<strong>Ticket Validity Period</strong><br>" . DateTime::createFromFormat('D j F', $_SESSION["post_data"]["date"])->format('l jS F Y') . ' - ' . $this->calculateEnd($_SESSION["post_data"]["date"], $_SESSION["post_data"]["select"]) . ' <br>
+                    ' . "<strong>Purchase Time</strong><br>" . (new DateTime())->format('l jS F Y, h:i A') . '</p>
+            </div>
+            <div class="col-lg-6">
+                <h3 class="h5 text-decoration-underline">Ticket Cost</h3>
+                <p>
+                <strong>Quantity:</strong> ' . $_SESSION["post_data"]["quantity"] . '<br>
+                <strong>Price:</strong> £' . number_format($_SESSION["post_data"]["quantity"] * $result["price"], 2) . '(VAT included)
+                </p>
+            </div>
+        </div>';
+    }
+
+    // Method to display ticket summary
+    public function displaySummary() {
+        $result = $this->getTicket($_SESSION["post_data"]["id"]);
+        echo
+        '<form method="post" class="p-3 bg-light bg-opacity-10 m-0">
+            <h6 class="card-title mb-3">Order Summary</h6>
+            <div class="d-flex justify-content-between mb-1 small">
+                <span>Subtotal</span> <span>£' . number_format($_SESSION["post_data"]["quantity"] * $result["price"], 2) . '</span>
+            </div>
+            <div class="d-flex justify-content-between mb-1 small">
+                <span>Discount</span> <span class="text-danger">-£0.00</span>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between mb-4 small">
+                <span>Total</span> <strong>£' . number_format($_SESSION["post_data"]["quantity"] * $result["price"], 2) . '</strong>
+            </div>
+            <div class="form-check mb-1 small">
+                <input class="form-check-input" type="checkbox" value="" id="tnc" required>
+                <label class="form-check-label" for="tnc">
+                    I agree to the <a href="../index.php?type=tcs" target="_blank">terms and conditions</a>
+                </label>
+            </div>
+            <button class="btn btn-primary w-100 mt-2" name="submitBtn" >Place order</button>
+        </form>';
+    }
+
 
     // Method to display all ticket category
     public function displayCards() {

@@ -18,14 +18,7 @@ try {
 			firstDayOfWeek: 1,
 		},
 		// disable dates
-		disable: [
-			{
-				from: "2024-09-01",
-				to: "2024-12-01",
-			},
-			// "2024-04-20",
-			// (date) => date.getDay() % 6 === 0,
-		],
+		disable: [],
 		// plugins
 		plugins: [
 			new rangePlugin({

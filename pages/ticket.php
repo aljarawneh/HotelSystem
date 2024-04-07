@@ -6,7 +6,16 @@ require_once("../includes/autoloader.inc.php");
 $webpage = new Webpage("Ticket - RZA", "ticket");
 
 // Ticket Object
-$ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["ticketSelect"] ?? '');
+$ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["ticketSelect"] ?? '', $_POST["quantity"] ?? '');
+
+// Start session
+session_start();
+
+// Return back to booking if theres invalid data
+if (isset($_SESSION['post_data']) && count($_SESSION['post_data']) !== 5 && isset($_GET["type"]) && $_GET["type"] == "payment") {
+    header("Location:ticket.php");
+}
+
 
 // Don't show notices
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -38,6 +47,16 @@ require_once("../includes/header.inc.php"); ?>
                         <div class="invalid-feedback">
                             <!-- Invalid input-->
                             Date is empty, please try again.
+                        </div>
+                    </div>
+                    <!-- Quantity -->
+                    <label for="quantity" class="fs-5 pb-2">Quantity: </label>
+                    <div class="input-group mb-3 has-validation">
+                        <label class="input-group-text" for="ticketSelect">Qnty</label>
+                        <input type="number" class="form-control <?php if (isset($_POST["dateSubmit"])) $ticket->errorCheck("quantity") ?>" placeholder="1" value="<?php if (isset($_POST["dateSubmit"])) $ticket->returnInput("quantity");  ?>" aria-label="quantity" id="quantity" name="quantity" required>
+                        <div class="invalid-feedback">
+                            <!-- Invalid input-->
+                            Quantity must be minimum 1.
                         </div>
                     </div>
                     <!-- Picking Ticket Type -->
@@ -74,29 +93,16 @@ require_once("../includes/header.inc.php"); ?>
                     <!-- Details -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <h3 class="h6">Ticket Information</h3>
-                                    <p>Ticket Name <br>
-                                        startDate - endDate <br>
-                                        currentDate:Time</p>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h3 class="h6">Cost</h3>
-                                    <p>
-                                        Quantity: 1<br>
-                                        Price: <strong>£12.34</strong> (VAT included)
-                                    </p>
-                                </div>
-                            </div>
+                            <?php $ticket->displayInformation() ?>
                         </div>
                     </div>
                     <!-- Accordion -->
                     <div class="accordion" id="accordionPayment">
-                        <!-- Credit card -->
-                        <div class="accordion-item mb-3">
-                            <h2 class="h5 pe-4 py-3 accordion-header d-flex justify-content-between align-items-center">
-                                <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapseCC" aria-expanded="false">
+                        <!-- Credit/Debit Card -->
+                        <div class="accordion-item mb-3 rounded">
+                            <!-- Header -->
+                            <h2 class="accordion-header h5 pe-4 py-3 d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapseCC" aria-expanded="true" aria-controls="collapseCC">
+                                <div class="form-check w-100 collapsed">
                                     <span class="form-check-label pt-1 user-select-none">
                                         1) Credit Card
                                     </span>
@@ -110,6 +116,7 @@ require_once("../includes/header.inc.php"); ?>
                                     </svg>
                                 </span>
                             </h2>
+                            <!-- Body -->
                             <div id="collapseCC" class="accordion-collapse collapse show" data-bs-parent="#accordionPayment">
                                 <div class="accordion-body">
                                     <div class="mb-3">
@@ -139,10 +146,11 @@ require_once("../includes/header.inc.php"); ?>
                                 </div>
                             </div>
                         </div>
-                        <!-- PayPal -->
-                        <div class="accordion-item mb-3 border">
-                            <h2 class="h5 pe-4 py-3 accordion-header d-flex justify-content-between align-items-center">
-                                <div class="form-check w-100 collapsed" data-bs-toggle="collapse" data-bs-target="#collapsePP" aria-expanded="false">
+                        <!-- Paypal -->
+                        <div class="accordion-item mb-3 border rounded">
+                            <!-- Header -->
+                            <h2 class="accordion-header h5 pe-4 py-3 d-flex justify-content-between align-items-center" data-bs-toggle="collapse" data-bs-target="#collapsePP" aria-expanded="false" aria-controls="collapsePP">
+                                <div class="form-check w-100 collapsed">
                                     <span class="form-check-label pt-1 user-select-none">
                                         2) PayPal
                                     </span>
@@ -159,6 +167,7 @@ require_once("../includes/header.inc.php"); ?>
                                     </svg>
                                 </span>
                             </h2>
+                            <!-- Body -->
                             <div id="collapsePP" class="accordion-collapse collapse" data-bs-parent="#accordionPayment">
                                 <div class="accordion-body">
                                     <div class="px-2 col-lg-6 mb-3">
@@ -173,26 +182,7 @@ require_once("../includes/header.inc.php"); ?>
                 <!-- Right -->
                 <div class="col-lg-3">
                     <div class="card position-sticky top-0">
-                        <div class="p-3 bg-light bg-opacity-10">
-                            <h6 class="card-title mb-3">Order Summary</h6>
-                            <div class="d-flex justify-content-between mb-1 small">
-                                <span>Subtotal</span> <span>£214.50</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-1 small">
-                                <span>Discount</span> <span class="text-danger">-£0.00</span>
-                            </div>
-                            <hr>
-                            <div class="d-flex justify-content-between mb-4 small">
-                                <span>Total</span> <strong>£224.50</strong>
-                            </div>
-                            <div class="form-check mb-1 small">
-                                <input class="form-check-input" type="checkbox" value="" id="tnc" required>
-                                <label class="form-check-label" for="tnc">
-                                    I agree to the <a href="#">terms and conditions</a>
-                                </label>
-                            </div>
-                            <button class="btn btn-primary w-100 mt-2">Place order</button>
-                        </div>
+                        <?php $ticket->displaySummary() ?>
                     </div>
                 </div>
             </div>
