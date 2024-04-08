@@ -3,7 +3,7 @@
 require_once("../includes/autoloader.inc.php");
 
 // Webpage object
-$webpage = new Webpage("Hotel - RZA", "hotel");
+$webpage = new Webpage("Hotel ", "hotel");
 
 require_once("../includes/header.inc.php"); ?>
 

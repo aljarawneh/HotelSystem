@@ -3,7 +3,7 @@
 require_once("../includes/autoloader.inc.php");
 
 // Webpage Object
-$webpage = new Webpage("Ticket - RZA", "ticket");
+$webpage = new Webpage("Ticket ", "ticket");
 
 // Ticket Object
 $ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["ticketSelect"] ?? '', $_POST["quantity"] ?? '');
@@ -11,11 +11,16 @@ $ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["tic
 // Start session
 session_start();
 
-// Return back to booking if theres invalid data
-if (isset($_SESSION['post_data']) && count($_SESSION['post_data']) !== 5 && isset($_GET["type"]) && $_GET["type"] == "payment") {
-    header("Location:ticket.php");
+// Return back to booking if theres invalid data/ no session data
+if ((isset($_SESSION['post_data']) && count($_SESSION['post_data']) !== 5 && isset($_GET["type"]) && $_GET["type"] == "payment") || (!isset($_SESSION['post_data']) && isset($_GET["type"]) && $_GET["type"] == "payment")) {
+    header("Location: ticket.php");
+    exit;
 }
 
+// Submit ticket booking to database
+if (isset($_POST["submitBtn"])) {
+    $ticket->submitTicket();
+}
 
 // Don't show notices
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -93,7 +98,7 @@ require_once("../includes/header.inc.php"); ?>
                     <!-- Details -->
                     <div class="card mb-4">
                         <div class="card-body">
-                            <?php $ticket->displayInformation() ?>
+                            <?php if (isset($_SESSION["post_data"])) $ticket->displayInformation() ?>
                         </div>
                     </div>
                     <!-- Accordion -->
@@ -182,7 +187,7 @@ require_once("../includes/header.inc.php"); ?>
                 <!-- Right -->
                 <div class="col-lg-3">
                     <div class="card position-sticky top-0">
-                        <?php $ticket->displaySummary() ?>
+                        <?php if (isset($_SESSION["post_data"])) $ticket->displaySummary() ?>
                     </div>
                 </div>
             </div>

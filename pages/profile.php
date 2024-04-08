@@ -3,7 +3,7 @@
 require_once("../includes/autoloader.inc.php");
 
 // Webpage object
-$webpage = new Webpage("Profile - RZA", "profile");
+$webpage = new Webpage("Profile ", "profile");
 $webpage->setScript("../scripts/profile.js");
 
 

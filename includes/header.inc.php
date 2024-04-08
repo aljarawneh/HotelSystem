@@ -27,7 +27,7 @@ $profile = new Profile("", "", "", "", "", $_COOKIE["customerID"] ?? '');
     <nav class="navbar navbar-expand-lg bg-body-tertiary nav-pills">
         <div class="container-fluid">
             <!-- Logo -->
-            <img src="/images/logo-light.png" class="navbar-brand img-fluid user-select-none" alt="Rigit Zoo Adventures Logo" width="50" draggable="false" />
+            <img src="/images/logo-light.png" class="navbar-brand img-fluid user-select-none" alt="logo" width="50" draggable="false" />
 
             <!-- Button for smaller view width -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

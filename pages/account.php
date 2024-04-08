@@ -3,7 +3,7 @@
 require_once("../includes/autoloader.inc.php");
 
 // Webpage object
-$webpage = new Webpage("Account - RZA", "account");
+$webpage = new Webpage("Account ", "account");
 
 // Create Account Object & Fill entry when clicked
 $account = new Account($_POST["firstName"] ?? '', $_POST["lastName"] ?? '', $_POST["email"] ?? '', $_POST["password"] ?? '', $_POST["confirmPassword"] ?? '', $_GET["type"] ?? '', $_COOKIE["customerID"] ?? '');

@@ -50,7 +50,7 @@
 
     <!-- Bottom half -->
     <div class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-3 border-top" data-bs-theme="dark">
-        <p class="col-md-4 mb-0 p-2 text-white">&copy; 2024 Riget Zoo Adventures. All rights reserved.</p>
+        <p class="col-md-4 mb-0 p-2 text-white">&copy; 2024 Example. All rights reserved.</p>
 
         <div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none gap-3">
             <!-- Twitter -->

@@ -41,7 +41,7 @@ class Webpage {
 
     // GET Method to get the title
     public function getTitle() {
-        echo strlen($this->title) <= 0 ? "RZA" : $this->title;
+        echo strlen($this->title) <= 0 ? "TEST" : $this->title;
     }
 
     // SET Method to assign scripts (args)

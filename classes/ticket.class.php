@@ -32,6 +32,10 @@ class Ticket extends Dbh {
         }
     }
 
+    // Method to submit ticket 
+    public function submitTicket() {
+    }
+
     // Method to return certain range of ticket types
     private function getResult() {
         // Number mapping
