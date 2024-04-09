@@ -1,5 +1,8 @@
 // Variables
+const range1 = document.querySelector("#dateRange1");
+const range2 = document.querySelector("#dateRange2");
 const clearBtn = document.querySelector("#dateClear");
+const today = new Date();
 const maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
 let dateRangePicker;
 let datePicker;
@@ -51,7 +54,6 @@ try {
 // Disable Flatpickr if device width is too short
 if (window.innerWidth < 618) {
 	flatpickr("#dateRange1").destroy();
-
 	// enable date picker for date range 1
 	range1.type = "date";
 	range1.setAttribute("min", today.toISOString().split("T")[0]);
@@ -62,6 +64,9 @@ if (window.innerWidth < 618) {
 	range2.removeAttribute("readonly");
 	range2.setAttribute("min", today.toISOString().split("T")[0]);
 	range2.setAttribute("max", maxDate.toISOString().split("T")[0]);
+
+	// Change clearBtn
+	clearBtn.type = "reset";
 }
 
 // Clear Input
