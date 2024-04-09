@@ -34,6 +34,21 @@ class Ticket extends Dbh {
 
     // Method to submit ticket 
     public function submitTicket() {
+        // Set default time
+        date_default_timezone_set('UTC');
+
+        // Assign data information
+        $ticket = $this->getTicket($_SESSION["post_data"]["id"]);
+        $data = $_SESSION["post_data"];
+        $startDate = date('Y-m-d', strtotime($data['date']));
+        $endDate = date('Y-m-d', strtotime($this->calculateEnd($data["date"], $data["select"])));
+        $id = $_COOKIE["customerID"];
+        $currentTime = (new DateTime())->format('Y-m-d H:i:s');
+        $price = $ticket['price'] * $data['quantity'];
+
+        // Submit data
+        $stmt = $this->connect()->prepare("INSERT INTO ticket (userID,ticketType,startDate,endDate,quantity,purchaseDate,price) VALUES (?,?,?,?,?,?,?)");
+        $stmt->execute([$id, $ticket['ticketType'], $startDate, $endDate, $data['quantity'], $currentTime, $price]);
     }
 
     // Method to return certain range of ticket types
@@ -186,7 +201,7 @@ class Ticket extends Dbh {
                 <h3 class="h5 text-decoration-underline">Ticket Information</h3>
                 <p>' . "<strong>Ticket Name</strong><br>" . ucfirst($_SESSION["post_data"]["select"]) . " Ticket (" . ucfirst($_SESSION["post_data"]["type"]) . ")" . '<br>
                     ' . "<strong>Ticket Validity Period</strong><br>" . DateTime::createFromFormat('D j F', $_SESSION["post_data"]["date"])->format('l jS F Y') . ' - ' . $this->calculateEnd($_SESSION["post_data"]["date"], $_SESSION["post_data"]["select"]) . ' <br>
-                    ' . "<strong>Purchase Time</strong><br>" . (new DateTime())->format('l jS F Y, h:i A') . '</p>
+                    ' . "<strong>Purchase Time</strong><br>" . (new DateTime())->format('l jS F Y, h:i A') . ' UTC+00</p>
             </div>
             <div class="col-lg-6">
                 <h3 class="h5 text-decoration-underline">Ticket Cost</h3>

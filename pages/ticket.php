@@ -12,7 +12,7 @@ $ticket = new Ticket($_GET["type"] ?? '', $_POST["startDate"] ?? '', $_POST["tic
 session_start();
 
 // Return back to booking if theres invalid data/ no session data
-if ((isset($_SESSION['post_data']) && count($_SESSION['post_data']) !== 5 && isset($_GET["type"]) && $_GET["type"] == "payment") || (!isset($_SESSION['post_data']) && isset($_GET["type"]) && $_GET["type"] == "payment")) {
+if ((isset($_GET["type"]) && $_GET["type"] == "payment") && (!isset($_SESSION['post_data']) || count($_SESSION['post_data']) !== 5)) {
     header("Location: ticket.php");
     exit;
 }
@@ -20,6 +20,9 @@ if ((isset($_SESSION['post_data']) && count($_SESSION['post_data']) !== 5 && iss
 // Submit ticket booking to database
 if (isset($_POST["submitBtn"])) {
     $ticket->submitTicket();
+    // Redirect
+    header("Location:../pages/booking.php?success=ticket");
+    exit;
 }
 
 // Don't show notices
