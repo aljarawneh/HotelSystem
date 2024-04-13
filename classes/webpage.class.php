@@ -56,7 +56,7 @@ class Webpage {
 
     // Method to display correct section for ticket & hotel
     public function displaySection($type, $section) {
-        $types = ["adult", "children", "family", "educational"];
+        $types = ["adult", "children", "family", "educational", "single", "double", "deluxe", "family"];
         if (($section == "main" && (in_array($type, $types) || $type == "payment")) ||
             ($section == "booking" && !in_array($type, $types)) ||
             ($section == "payment" && $type != "payment")

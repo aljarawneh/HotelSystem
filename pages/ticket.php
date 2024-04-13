@@ -196,7 +196,6 @@ require_once("../includes/header.inc.php"); ?>
             </div>
         </div>
     </section>
-
 </main>
 
 <?php require_once("../includes/footer.inc.php"); ?>

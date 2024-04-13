@@ -74,15 +74,3 @@ main {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
-
-/* Hide Circle for today on flatpickr */
-
-.flatpickr-day.today {
-	border: none !important;
-}
-
-.flatpickr-day.today:hover {
-	background: #646c8c !important;
-	color: rgba(255, 255, 255, 0.95) !important;
-	border-color: #646c8c !important;
-}

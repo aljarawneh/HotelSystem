@@ -9,7 +9,7 @@ let datePicker;
 
 // Date Range Picker
 try {
-	dateRangePicker = flatpickr(document.querySelector("#dateRange1"), {
+	dateRangePicker = flatpickr(range1, {
 		mode: "range",
 		enableTime: false,
 		disableMobile: true,
@@ -25,7 +25,7 @@ try {
 		// plugins
 		plugins: [
 			new rangePlugin({
-				input: document.querySelector("#dateRange2"),
+				input: range2,
 			}),
 		],
 	});
