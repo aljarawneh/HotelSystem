@@ -5,6 +5,9 @@ if (strpos($_SERVER['PHP_SELF'], 'classes/') !== false || strpos($_SERVER['PHP_S
     exit();
 }
 
+// Start Sesssion
+session_start();
+
 // Include
 include_once("dbh.class.php");
 
@@ -36,6 +39,7 @@ class Hotel extends Dbh {
 
         if (empty($this->errors)) {
             header("location:?type=" . $this->values['select']);
+            $_SESSION["hotelData"] = $this->values;
             exit();
         }
     }
@@ -52,6 +56,34 @@ class Hotel extends Dbh {
         if (strlen($select) == 0) {
             array_push($this->errors, "select");
         }
+    }
+
+    // ----------------------------------------------- Algorithm methods -----------------------------------------------
+
+    // Method to get all available from db
+    private function fetchAvailable() {
+        // Set Up variables
+        $select = ucfirst($_SESSION["hotelData"]["select"]);
+
+        // Set up SQL statement
+        $sql =
+            "SELECT h.*
+            FROM hotel h
+            JOIN room r ON h.roomType = r.roomID
+            WHERE r.roomName = ?";
+
+        // Prepare and execute the statement
+        $stmt = $this->connect()->prepare($sql);
+        $stmt->execute([$select]);
+        return $stmt->fetchAll(); //return All data
+        // SQL to select all hotel data where Room and Hotel are joined on (Hotel) roomType & (Room) roomID where room name is $select.  (line 80-83)
+    }
+
+    // Method to return dates where each room will be free
+    private function returnAvailable($data) {
+        // Variables
+        $startDate = (new DateTime($_SESSION["hotelData"]["startDate"]))->format('Y-m-d');
+        $endDate = (new DateTime($_SESSION["hotelData"]["endDate"]))->format('Y-m-d');
     }
 
     // ----------------------------------------------- Other methods -----------------------------------------------
@@ -71,5 +103,11 @@ class Hotel extends Dbh {
         } elseif ($type == $this->values["select"]) {
             echo "selected";
         }
+    }
+
+    // Method to display all available date
+    public function displayAvailable() {
+        print_r($data = $this->fetchAvailable());
+        $this->returnAvailable($data);
     }
 }

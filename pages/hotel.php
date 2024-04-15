@@ -58,7 +58,7 @@ require_once("../includes/header.inc.php"); ?>
     </section>
 
     <section id="booking" <?php $webpage->displaySection($_GET["type"] ?? '', "booking") ?>>
-        a
+        <?php $hotel->displayAvailable() ?>
     </section>
 
     <section id="payment" <?php $webpage->displaySection($_GET["type"] ?? '', "payment") ?>>b</section>
