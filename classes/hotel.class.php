@@ -64,26 +64,36 @@ class Hotel extends Dbh {
     private function fetchAvailable() {
         // Set Up variables
         $select = ucfirst($_SESSION["hotelData"]["select"]);
+        $startDate = (new DateTime($_SESSION["hotelData"]["startDate"]))->format('Y-m-d');
+        $endDate = (new DateTime($_SESSION["hotelData"]["endDate"]))->format('Y-m-d');
 
         // Set up SQL statement
-        $sql =
-            "SELECT h.*
+        $sql = "SELECT r.roomID
+        FROM room r
+        WHERE r.roomName = ?
+        AND NOT EXISTS (
+            SELECT 1
             FROM hotel h
-            JOIN room r ON h.roomType = r.roomID
-            WHERE r.roomName = ?";
+            WHERE h.roomType = r.roomID
+            AND (
+                (h.startDate <= ? AND h.endDate >= ?) OR
+                (h.startDate <= ? AND h.endDate >= ?) OR
+                (h.startDate >= ? AND h.endDate <= ?)
+            )
+        )";
 
         // Prepare and execute the statement
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$select]);
+        $stmt->execute([$select, $startDate, $endDate, $startDate, $endDate, $startDate, $endDate]);
         return $stmt->fetchAll(); //return All data
-        // SQL to select all hotel data where Room and Hotel are joined on (Hotel) roomType & (Room) roomID where room name is $select.  (line 80-83)
+        // SQL to select the roomID from the room table where the roomName matches the specified $select and there are no bookings that overlap with the specified date range. (line 71-74)
+        // SQL to check if other booking overlaps the selected date range, and exclude bookings that fully contain the selected date range. (line 75-79)
     }
 
     // Method to return dates where each room will be free
     private function returnAvailable($data) {
         // Variables
-        $startDate = (new DateTime($_SESSION["hotelData"]["startDate"]))->format('Y-m-d');
-        $endDate = (new DateTime($_SESSION["hotelData"]["endDate"]))->format('Y-m-d');
+
     }
 
     // ----------------------------------------------- Other methods -----------------------------------------------
@@ -108,6 +118,5 @@ class Hotel extends Dbh {
     // Method to display all available date
     public function displayAvailable() {
         print_r($data = $this->fetchAvailable());
-        $this->returnAvailable($data);
     }
 }
