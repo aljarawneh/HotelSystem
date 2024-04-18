@@ -77,23 +77,16 @@ class Hotel extends Dbh {
             WHERE h.roomType = r.roomID
             AND (
                 (h.startDate <= ? AND h.endDate >= ?) OR
-                (h.startDate <= ? AND h.endDate >= ?) OR
                 (h.startDate >= ? AND h.endDate <= ?)
             )
         )";
 
         // Prepare and execute the statement
         $stmt = $this->connect()->prepare($sql);
-        $stmt->execute([$select, $startDate, $endDate, $startDate, $endDate, $startDate, $endDate]);
+        $stmt->execute([$select, $startDate, $endDate, $startDate, $endDate]);
         return $stmt->fetchAll(); //return All data
         // SQL to select the roomID from the room table where the roomName matches the specified $select and there are no bookings that overlap with the specified date range. (line 71-74)
         // SQL to check if other booking overlaps the selected date range, and exclude bookings that fully contain the selected date range. (line 75-79)
-    }
-
-    // Method to return dates where each room will be free
-    private function returnAvailable($data) {
-        // Variables
-
     }
 
     // ----------------------------------------------- Other methods -----------------------------------------------

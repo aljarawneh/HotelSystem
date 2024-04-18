@@ -4,6 +4,7 @@ require_once("../includes/autoloader.inc.php");
 
 // Webpage object
 $webpage = new Webpage("Animal", "animal");
+$webpage->setScript("../scripts/animal.js");
 
 require_once("../includes/header.inc.php"); ?>
 

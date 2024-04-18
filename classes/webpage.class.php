@@ -51,7 +51,7 @@ class Webpage {
 
     // Method to get script
     public function getScript() {
-        echo strlen($this->scripts) == 0 ? '' : '<script src="' . $this->scripts . '"></script>';
+        echo strlen($this->scripts) == 0 ? '' : '<script type="module" src="' . $this->scripts . '"></script>';
     }
 
     // Method to display correct section for ticket & hotel
