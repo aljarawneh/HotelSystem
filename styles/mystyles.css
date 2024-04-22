@@ -74,8 +74,3 @@ main {
 	-webkit-box-orient: vertical;
 	overflow: hidden;
 }
-
-/* Search Select */
-.search-select {
-	max-width: 20%;
-}
